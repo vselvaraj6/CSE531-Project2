@@ -10,6 +10,7 @@ interface: query
 money: 500
 result: success
 ]id: 3, recv:[id: 3
+clock: 2
 , id: 3
 interface: query
 money: 500

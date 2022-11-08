@@ -45,7 +45,7 @@ class BranchServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def Deposit(self, request, context):
-        """MsgDelivery Service 
+        """Branch Services 
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')

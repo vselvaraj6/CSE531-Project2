@@ -6,7 +6,7 @@ import time
 
 class BranchServicer(service_pb2_grpc.BranchServicer):
 
-    def __init__(self, id, balance, branches):
+    def __init__(self, id, balance, branches, clock):
         # unique ID of the Branch
         self.id = id
         # replica of the Branch's balance
@@ -18,7 +18,7 @@ class BranchServicer(service_pb2_grpc.BranchServicer):
         # a list of received messages used for debugging purpose
         self.recvMsg = list()
         # stores local clock
-        self.clock = None
+        self.clock = clock
         # stores output data
         self.data = list()
 
@@ -48,45 +48,52 @@ class BranchServicer(service_pb2_grpc.BranchServicer):
           channel.close()             
 
     # TODO: students are expected to process requests from both Client and Branch
-    def Withdraw(self,request, context):
-       
+    def Withdraw(self, request, context):
+        self.clock = max(request.clock, self.clock) + 1
         event = request.event
         output = service_pb2.WithdrawResponse()
         if event.interface == 2:
             print("executing event..", request.event)
+            self.clock = self.clock + 1
             output.id = self.id
             self.balance = self.balance - event.money
             output.result = 1
             output.interface = event.interface
           #  print("withdraw - customer id: ", self.id, "balance: ", self.balance)
             print("Response from server WithdrawResponse:", output)
+            print('Local Clock in WithdrawServer:', self.clock)
             self.propogate_withdraw()
         return output
 
-    def Deposit(self,request, context):
-       
+    def Deposit(self, request, context):
+        self.clock = max(request.clock, self.clock) + 1
         event = request.event
         output = service_pb2.DepositResponse()
         if event.interface == 1:
             print("executing event..", request.event)
+            self.clock = self.clock + 1
             output.id = self.id
             self.balance = self.balance + event.money
             output.result = 1
             output.interface = event.interface
          #   print("deposit - customer id: ", self.id, "balance: ", self.balance)
             print("Response from server DepositResponse:", output)
+            print('Local Clock in DepositServer:', self.clock)
             self.propogate_deposit()
         return output    
 
     def Query(self, request, context):
         print("executing interface..", request.event)
+        self.clock = max(request.clock, self.clock) + 1
         output = service_pb2.QueryResponse()
         output.money = self.balance  
        # print("query - customer id: ", self.id, "balance: ", self.balance)
         output.id = self.id
+        self.clock = self.clock + 1
         output.result = 1
         output.interface = 3
         print("Response from server Query:", output)
+        print('Local Clock in QueryServer:', self.clock)
         return output
 
     def WithdrawPropogate(self, request, context):

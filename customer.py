@@ -6,7 +6,7 @@ import json
 import sys
 
 class Customer:
-    def __init__(self, id, events):
+    def __init__(self, id, events, clock):
         # unique ID of the Customer
         self.id = id
         # events from the input
@@ -16,7 +16,7 @@ class Customer:
         # pointer for the stub
         self.stub = None
         # local clock
-        self.clock = None
+        self.clock = clock
         # data
         self.data = list()
 
@@ -38,12 +38,13 @@ class Customer:
         
         for event in self.events:
             if event.get('interface') == 'withdraw':
-                request = service_pb2.WithdrawRequest(id=self.id, event=event)
+                request = service_pb2.WithdrawRequest(id=self.id, clock=self.clock+1, event=event)
                 with grpc.insecure_channel(host) as channel:
                     self.stub = service_pb2_grpc.BranchStub(channel)
                     response = self.stub.Withdraw(request=request)
                     self.recvMsg.append(response)
-                    print('Recieved WithdrawResponse', self.recvMsg)
+                    print('Local Clock in Withdraw:', self.clock)
+                    print('Recieved WithdrawResponse: ', self.recvMsg)
                 channel.close()   
 
     def executeDepositEvents(self):
@@ -53,12 +54,14 @@ class Customer:
         
         for event in self.events:
             if event.get('interface') == 'deposit':
-                request = service_pb2.DepositRequest(id=self.id, event=event)
+                request = service_pb2.DepositRequest(id=self.id, clock=self.clock,event=event)
                 with grpc.insecure_channel(host) as channel:
                     self.stub = service_pb2_grpc.BranchStub(channel)
                     response = self.stub.Deposit(request=request)
                     self.recvMsg.append(response)
-                    print('Recieved DepositResponse', self.recvMsg)
+                    self.clock = self.clock + 1
+                    print('Local Clock in Deposit:', self.clock)
+                    print('Recieved DepositResponse: ', self.recvMsg)
                 channel.close()                                
 
     def executeQueryEvents(self):
@@ -68,12 +71,14 @@ class Customer:
         
         for event in self.events:
             if event.get('interface') == 'query':
-                request = service_pb2.QueryRequest(id=self.id, event=event)
+                request = service_pb2.QueryRequest(id=self.id, clock=self.clock, event=event)
                 with grpc.insecure_channel(host) as channel:
                     self.stub = service_pb2_grpc.BranchStub(channel)
                     response = self.stub.Query(request=request)
                     self.recvMsg.append(response)
-                    print('Recieved QueryResponse', self.recvMsg)
+                    self.clock = self.clock + 1
+                    print('Local Clock in Query:', self.clock)
+                    print('Recieved QueryResponse:', self.recvMsg)
                 channel.close()                    
 
   

@@ -30,7 +30,7 @@ customers = []
 customer_processes = []
 
 for customer_input_item in customer_input_items:
-    customer = Customer(customer_input_item.get('id'),customer_input_item.get('events'))
+    customer = Customer(customer_input_item.get('id'),customer_input_item.get('events'), 1)
     customers.append(customer)
 
 #Invoke withdraw and deposit interface

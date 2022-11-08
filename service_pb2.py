@@ -15,7 +15,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rservice.proto\"4\n\x0fWithdrawRequest\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x15\n\x05\x65vent\x18\x03 \x01(\x0b\x32\x06.Event\"3\n\x0e\x44\x65positRequest\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x15\n\x05\x65vent\x18\x03 \x01(\x0b\x32\x06.Event\"1\n\x0cQueryRequest\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x15\n\x05\x65vent\x18\x03 \x01(\x0b\x32\x06.Event\"+\n\x18WithdrawPropogateRequest\x12\x0f\n\x07\x62\x61lance\x18\x01 \x01(\x05\"*\n\x17\x44\x65positPropogateRequest\x12\x0f\n\x07\x62\x61lance\x18\x01 \x01(\x05\"A\n\x05\x45vent\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x1d\n\tinterface\x18\x02 \x01(\x0e\x32\n.Interface\x12\r\n\x05money\x18\x03 \x01(\x05\"V\n\x10WithdrawResponse\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x1d\n\tinterface\x18\x02 \x01(\x0e\x32\n.Interface\x12\x17\n\x06result\x18\x03 \x01(\x0e\x32\x07.Result\"U\n\x0f\x44\x65positResponse\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x1d\n\tinterface\x18\x02 \x01(\x0e\x32\n.Interface\x12\x17\n\x06result\x18\x03 \x01(\x0e\x32\x07.Result\"b\n\rQueryResponse\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x1d\n\tinterface\x18\x02 \x01(\x0e\x32\n.Interface\x12\r\n\x05money\x18\x03 \x01(\x05\x12\x17\n\x06result\x18\x04 \x01(\x0e\x32\x07.Result\"4\n\x19WithdrawPropogateResponse\x12\x17\n\x06result\x18\x01 \x01(\x0e\x32\x07.Result\"3\n\x18\x44\x65positPropogateResponse\x12\x17\n\x06result\x18\x01 \x01(\x0e\x32\x07.Result*.\n\x06Result\x12\n\n\x06uknown\x10\x00\x12\x0b\n\x07success\x10\x01\x12\x0b\n\x07\x66\x61ilure\x10\x02*@\n\tInterface\x12\r\n\tundefined\x10\x00\x12\x0b\n\x07\x64\x65posit\x10\x01\x12\x0c\n\x08withdraw\x10\x02\x12\t\n\x05query\x10\x03\x32\xa2\x02\n\x06\x42ranch\x12,\n\x07\x44\x65posit\x12\x0f.DepositRequest\x1a\x10.DepositResponse\x12.\n\x08Withdraw\x12\x10.WithdrawRequest\x1a\x10.WithdrawRequest\x12&\n\x05Query\x12\r.QueryRequest\x1a\x0e.QueryResponse\x12J\n\x11WithdrawPropogate\x12\x19.WithdrawPropogateRequest\x1a\x1a.WithdrawPropogateResponse\x12\x46\n\x10\x44\x65positPropogate\x12\x18.DepositPropogateRequest\x1a\x18.DepositPropogateRequestb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rservice.proto\"C\n\x0fWithdrawRequest\x12\n\n\x02id\x18\x01 \x01(\x05\x12\r\n\x05\x63lock\x18\x02 \x01(\x05\x12\x15\n\x05\x65vent\x18\x03 \x01(\x0b\x32\x06.Event\"B\n\x0e\x44\x65positRequest\x12\n\n\x02id\x18\x01 \x01(\x05\x12\r\n\x05\x63lock\x18\x02 \x01(\x05\x12\x15\n\x05\x65vent\x18\x03 \x01(\x0b\x32\x06.Event\"@\n\x0cQueryRequest\x12\n\n\x02id\x18\x01 \x01(\x05\x12\r\n\x05\x63lock\x18\x02 \x01(\x05\x12\x15\n\x05\x65vent\x18\x03 \x01(\x0b\x32\x06.Event\":\n\x18WithdrawPropogateRequest\x12\x0f\n\x07\x62\x61lance\x18\x01 \x01(\x05\x12\r\n\x05\x63lock\x18\x02 \x01(\x05\"9\n\x17\x44\x65positPropogateRequest\x12\x0f\n\x07\x62\x61lance\x18\x01 \x01(\x05\x12\r\n\x05\x63lock\x18\x02 \x01(\x05\"A\n\x05\x45vent\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x1d\n\tinterface\x18\x02 \x01(\x0e\x32\n.Interface\x12\r\n\x05money\x18\x03 \x01(\x05\"V\n\x10WithdrawResponse\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x1d\n\tinterface\x18\x02 \x01(\x0e\x32\n.Interface\x12\x17\n\x06result\x18\x03 \x01(\x0e\x32\x07.Result\"U\n\x0f\x44\x65positResponse\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x1d\n\tinterface\x18\x02 \x01(\x0e\x32\n.Interface\x12\x17\n\x06result\x18\x03 \x01(\x0e\x32\x07.Result\"b\n\rQueryResponse\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x1d\n\tinterface\x18\x02 \x01(\x0e\x32\n.Interface\x12\r\n\x05money\x18\x03 \x01(\x05\x12\x17\n\x06result\x18\x04 \x01(\x0e\x32\x07.Result\"4\n\x19WithdrawPropogateResponse\x12\x17\n\x06result\x18\x01 \x01(\x0e\x32\x07.Result\"3\n\x18\x44\x65positPropogateResponse\x12\x17\n\x06result\x18\x01 \x01(\x0e\x32\x07.Result*.\n\x06Result\x12\n\n\x06uknown\x10\x00\x12\x0b\n\x07success\x10\x01\x12\x0b\n\x07\x66\x61ilure\x10\x02*@\n\tInterface\x12\r\n\tundefined\x10\x00\x12\x0b\n\x07\x64\x65posit\x10\x01\x12\x0c\n\x08withdraw\x10\x02\x12\t\n\x05query\x10\x03\x32\xa2\x02\n\x06\x42ranch\x12,\n\x07\x44\x65posit\x12\x0f.DepositRequest\x1a\x10.DepositResponse\x12.\n\x08Withdraw\x12\x10.WithdrawRequest\x1a\x10.WithdrawRequest\x12&\n\x05Query\x12\r.QueryRequest\x1a\x0e.QueryResponse\x12J\n\x11WithdrawPropogate\x12\x19.WithdrawPropogateRequest\x1a\x1a.WithdrawPropogateResponse\x12\x46\n\x10\x44\x65positPropogate\x12\x18.DepositPropogateRequest\x1a\x18.DepositPropogateRequestb\x06proto3')
 
 _RESULT = DESCRIPTOR.enum_types_by_name['Result']
 Result = enum_type_wrapper.EnumTypeWrapper(_RESULT)
@@ -122,32 +122,32 @@ _BRANCH = DESCRIPTOR.services_by_name['Branch']
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  _RESULT._serialized_start=713
-  _RESULT._serialized_end=759
-  _INTERFACE._serialized_start=761
-  _INTERFACE._serialized_end=825
+  _RESULT._serialized_start=788
+  _RESULT._serialized_end=834
+  _INTERFACE._serialized_start=836
+  _INTERFACE._serialized_end=900
   _WITHDRAWREQUEST._serialized_start=17
-  _WITHDRAWREQUEST._serialized_end=69
-  _DEPOSITREQUEST._serialized_start=71
-  _DEPOSITREQUEST._serialized_end=122
-  _QUERYREQUEST._serialized_start=124
-  _QUERYREQUEST._serialized_end=173
-  _WITHDRAWPROPOGATEREQUEST._serialized_start=175
-  _WITHDRAWPROPOGATEREQUEST._serialized_end=218
-  _DEPOSITPROPOGATEREQUEST._serialized_start=220
-  _DEPOSITPROPOGATEREQUEST._serialized_end=262
-  _EVENT._serialized_start=264
-  _EVENT._serialized_end=329
-  _WITHDRAWRESPONSE._serialized_start=331
-  _WITHDRAWRESPONSE._serialized_end=417
-  _DEPOSITRESPONSE._serialized_start=419
-  _DEPOSITRESPONSE._serialized_end=504
-  _QUERYRESPONSE._serialized_start=506
-  _QUERYRESPONSE._serialized_end=604
-  _WITHDRAWPROPOGATERESPONSE._serialized_start=606
-  _WITHDRAWPROPOGATERESPONSE._serialized_end=658
-  _DEPOSITPROPOGATERESPONSE._serialized_start=660
-  _DEPOSITPROPOGATERESPONSE._serialized_end=711
-  _BRANCH._serialized_start=828
-  _BRANCH._serialized_end=1118
+  _WITHDRAWREQUEST._serialized_end=84
+  _DEPOSITREQUEST._serialized_start=86
+  _DEPOSITREQUEST._serialized_end=152
+  _QUERYREQUEST._serialized_start=154
+  _QUERYREQUEST._serialized_end=218
+  _WITHDRAWPROPOGATEREQUEST._serialized_start=220
+  _WITHDRAWPROPOGATEREQUEST._serialized_end=278
+  _DEPOSITPROPOGATEREQUEST._serialized_start=280
+  _DEPOSITPROPOGATEREQUEST._serialized_end=337
+  _EVENT._serialized_start=339
+  _EVENT._serialized_end=404
+  _WITHDRAWRESPONSE._serialized_start=406
+  _WITHDRAWRESPONSE._serialized_end=492
+  _DEPOSITRESPONSE._serialized_start=494
+  _DEPOSITRESPONSE._serialized_end=579
+  _QUERYRESPONSE._serialized_start=581
+  _QUERYRESPONSE._serialized_end=679
+  _WITHDRAWPROPOGATERESPONSE._serialized_start=681
+  _WITHDRAWPROPOGATERESPONSE._serialized_end=733
+  _DEPOSITPROPOGATERESPONSE._serialized_start=735
+  _DEPOSITPROPOGATERESPONSE._serialized_end=786
+  _BRANCH._serialized_start=903
+  _BRANCH._serialized_end=1193
 # @@protoc_insertion_point(module_scope)
