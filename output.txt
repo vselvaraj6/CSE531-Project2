@@ -1,0 +1,17 @@
+id: 1, recv:[id: 1
+interface: query
+money: 500
+result: success
+]id: 2, recv:[id: 2
+interface: deposit
+result: success
+, id: 2
+interface: query
+money: 500
+result: success
+]id: 3, recv:[id: 3
+, id: 3
+interface: query
+money: 500
+result: success
+]
