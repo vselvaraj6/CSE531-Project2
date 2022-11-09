@@ -68,10 +68,12 @@ message QueryResponse {
 
 message WithdrawPropogateResponse{
     Result result = 1;
+    int32 clock = 2;
 }
 
 message DepositPropogateResponse{
     Result result = 1;
+    int32 clock = 2;
 }
 
 enum Result {

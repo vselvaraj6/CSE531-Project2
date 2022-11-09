@@ -54,7 +54,7 @@ class Customer:
         
         for event in self.events:
             if event.get('interface') == 'deposit':
-                request = service_pb2.DepositRequest(id=self.id, clock=self.clock,event=event)
+                request = service_pb2.DepositRequest(id=self.id, clock=self.clock, event=event)
                 with grpc.insecure_channel(host) as channel:
                     self.stub = service_pb2_grpc.BranchStub(channel)
                     response = self.stub.Deposit(request=request)
