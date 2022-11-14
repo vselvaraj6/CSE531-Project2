@@ -5,7 +5,7 @@ from multiprocessing import Process
 from concurrent import futures
 import service_pb2_grpc
 import grpc
-
+import time
 
 def parse_input_file():
     branch_input_items =list()
@@ -69,5 +69,3 @@ for branch_input_item in branch_input_items:
 
 for branch_process in branch_processes:
     branch_process.join()
-
-

@@ -43,8 +43,6 @@ class Customer:
                     self.stub = service_pb2_grpc.BranchStub(channel)
                     response = self.stub.Withdraw(request=request)
                     self.recvMsg.append(response)
-                    print('Local Clock in Withdraw:', self.clock)
-                    print('Recieved WithdrawResponse: ', self.recvMsg)
                 channel.close()   
 
     def executeDepositEvents(self):
@@ -59,9 +57,6 @@ class Customer:
                     self.stub = service_pb2_grpc.BranchStub(channel)
                     response = self.stub.Deposit(request=request)
                     self.recvMsg.append(response)
-                    self.clock = self.clock + 1
-                    print('Local Clock in Deposit:', self.clock)
-                    print('Recieved DepositResponse: ', self.recvMsg)
                 channel.close()                                
 
     def executeQueryEvents(self):
@@ -76,9 +71,6 @@ class Customer:
                     self.stub = service_pb2_grpc.BranchStub(channel)
                     response = self.stub.Query(request=request)
                     self.recvMsg.append(response)
-                    self.clock = self.clock + 1
-                    print('Local Clock in Query:', self.clock)
-                    print('Recieved QueryResponse:', self.recvMsg)
                 channel.close()                    
 
   
