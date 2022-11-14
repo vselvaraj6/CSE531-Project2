@@ -6,7 +6,7 @@ import time
 
 class BranchServicer(service_pb2_grpc.BranchServicer):
 
-    def __init__(self, id, balance, branches, clock):
+    def __init__(self, id, balance, branches, clock, data):
         # unique ID of the Branch
         self.id = id
         # replica of the Branch's balance
@@ -20,75 +20,81 @@ class BranchServicer(service_pb2_grpc.BranchServicer):
         # stores local clock
         self.clock = clock
         # stores output data
-        self.data = list()
+        self.data = data
 
     def __str__(self) -> str:
        return "id: {0}, balance: {1}, branches: {2}, clock: {3}, data: {4}".format(self.id,self.balance,self.branches,self.clock,self.data)     
 
-    def propogate_withdraw(self, event_id):
+    def orchestrate_propogate_withdraw(self, id, event_id, port, clock):
+      host = 'localhost:'+str(port)
+      result = None
+      with grpc.insecure_channel(host) as channel:
+          self.stub = service_pb2_grpc.BranchStub(channel)
+          request = service_pb2.WithdrawPropogateRequest(balance=self.balance,id=id, event_id=event_id, clock=clock)
+          result = self.stub.WithdrawPropogate(request=request)
+      channel.close()   
+      return result
 
-        for process in self.branches:
-            host = 'localhost:'+str(process)
-            with grpc.insecure_channel(host) as channel:
-                self.stub = service_pb2_grpc.BranchStub(channel)
-                request = service_pb2.WithdrawPropogateRequest(balance=self.balance,id=event_id)
-                response = self.stub.WithdrawPropogate(request=request)
-            channel.close()     
+    def orchestrate_propogate_deposit(self, id, event_id, port, clock):
+      host = 'localhost:'+str(port)
+      result = None
+      with grpc.insecure_channel(host) as channel:
+          self.stub = service_pb2_grpc.BranchStub(channel)
+          request = service_pb2.DepositPropogateRequest(balance=self.balance, id=id, event_id = event_id, clock=clock)
+          result = self.stub.DepositPropogate(request=request)
+      channel.close()             
+      return result    
 
-    def propogate_deposit(self, event_id):
-
-      for process in self.branches:
-          host = 'localhost:'+str(process)
-          with grpc.insecure_channel(host) as channel:
-              self.stub = service_pb2_grpc.BranchStub(channel)
-              request = service_pb2.DepositPropogateRequest(balance=self.balance, id=event_id)
-              response = self.stub.DepositPropogate(request=request)
-          channel.close()             
-
-    def event_request(self, event_id, event_name, remote_clock):
+    def event_request(self, id, event_id, event_name, remote_clock):
       self.clock = max(self.clock, remote_clock) + 1
       clock_event = service_pb2.ClockEvent()
-      clock_event.id = event_id
+      clock_event.id = id
+      clock_event.event_id = event_id
       clock_event.name = event_name
       clock_event.clock = self.clock
       return clock_event
 
-    def event_execute(self, event_id, event_name):
+    def event_execute(self, id, event_id, event_name):
       self.clock = self.clock + 1  
       clock_event = service_pb2.ClockEvent()
-      clock_event.id = event_id
+      clock_event.id = id
+      clock_event.event_id = event_id
       clock_event.name = event_name
       clock_event.clock = self.clock
       return clock_event
 
-    def propogate_request(self, event_id, event_name, remote_clock):
+    def propogate_request(self, id, event_id, event_name, remote_clock):
       self.clock = max(self.clock, remote_clock) + 1  
       clock_event = service_pb2.ClockEvent()
-      clock_event.id = event_id
+      clock_event.id = id
+      clock_event.event_id = event_id
       clock_event.name = event_name
       clock_event.clock = self.clock
       return clock_event
 
-    def propogate_execute(self, event_id, event_name):
+    def propogate_execute(self, id, event_id, event_name):
       self.clock = self.clock + 1
       clock_event = service_pb2.ClockEvent()
-      clock_event.id = event_id
+      clock_event.id = id
+      clock_event.event_id = event_id
       clock_event.name = event_name
       clock_event.clock = self.clock
       return clock_event   
 
-    def propogate_response(self, event_id, event_name, remote_clock):
+    def propogate_response(self, id, event_id, event_name, remote_clock):
       self.clock = max(self.clock, remote_clock) + 1 
       clock_event = service_pb2.ClockEvent()
-      clock_event.id = event_id
+      clock_event.id = id
+      clock_event.event_id = event_id
       clock_event.name = event_name
       clock_event.clock = self.clock
       return clock_event
 
-    def event_response(self, event_id, event_name):
+    def event_response(self, id, event_id, event_name):
       self.clock = self.clock + 1  
       clock_event = service_pb2.ClockEvent()
-      clock_event.id = event_id
+      clock_event.id = id
+      clock_event.event_id = event_id
       clock_event.name = event_name
       clock_event.clock = self.clock
       return clock_event
@@ -96,31 +102,51 @@ class BranchServicer(service_pb2_grpc.BranchServicer):
 
     # TODO: students are expected to process requests from both Client and Branch
     def Withdraw(self, request, context):
-        event = request.event
         output = service_pb2.WithdrawResponse()
-        if event.interface == 2:
-            output.clock_event.append(self.event_request(request.event.id, 'withdraw_request', request.clock))
-            output.clock_event.append(self.event_execute(request.event.id, 'withdraw_execute'))
-            output.id = self.id
-            self.balance = self.balance - event.money
-            output.result = 1
-            output.interface = event.interface
-            self.propogate_withdraw(request.event.id)
-            output.clock_event.append(self.propogate_response(request.event.id, 'withdraw_propogate_response', self.clock))
+        try:
+          event = request.event
+          if event.interface == 2:
+              output.clock_events.append(self.event_request(self.id, request.event.id, 'withdraw_request', request.clock))
+              output.clock_events.append(self.event_execute(self.id, request.event.id, 'withdraw_execute'))
+              output.id = self.id
+              self.balance = self.balance - event.money
+              output.result = 1
+              output.interface = event.interface
+              
+              for process in self.branches.keys():
+                if process != self.id: 
+                  result = self.orchestrate_propogate_withdraw(process, request.event.id, self.branches.get(process), self.clock)
+                  output.clock_events.extend(result.clock_events)
+                  output.clock_events.append(self.propogate_response(self.id, request.event.id, 'withdraw_propogate_response', self.clock))
+
+              output.clock_events.append(self.event_response(self.id, request.event.id, 'withdraw_response'))    
+
+        except Exception as e:
+          print(e)      
         return output
 
     def Deposit(self, request, context):
-        event = request.event
         output = service_pb2.DepositResponse()
-        if event.interface == 1:
-            output.clock_event.append(self.event_request(request.event.id, 'deposit_request', request.clock))
-            output.clock_event.append(self.event_execute(request.event.id, 'deposit_execute'))
-            output.id = self.id
-            self.balance = self.balance + event.money
-            output.result = 1
-            output.interface = event.interface
-            self.propogate_deposit(request.event.id)
-            output.clock_event.append(self.propogate_response(request.event.id, 'deposit_propogate_response', self.clock))
+        try:
+          event = request.event 
+          if event.interface == 1:
+              output.clock_events.append(self.event_request(self.id, request.event.id, 'deposit_request', request.clock))
+              output.clock_events.append(self.event_execute(self.id, request.event.id, 'deposit_execute'))
+              output.id = self.id
+              self.balance = self.balance + event.money
+              output.result = 1
+              output.interface = event.interface
+
+              for process in self.branches.keys():
+                if process != self.id: 
+                  result = self.orchestrate_propogate_deposit(process, request.event.id, self.branches.get(process), self.clock)
+                  output.clock_events.extend(result.clock_events)
+                  output.clock_events.append(self.propogate_response(self.id, request.event.id, 'deposit_propogate_response', self.clock))
+             
+              output.clock_events.append(self.event_response(self.id, request.event.id, 'deposit_response'))
+              
+        except Exception as e:
+          print(e)    
         return output    
 
     def Query(self, request, context):
@@ -132,19 +158,33 @@ class BranchServicer(service_pb2_grpc.BranchServicer):
         return output
 
     def WithdrawPropogate(self, request, context):
-        self.data.append(self.propogate_request(request.id, 'withdraw_propogate_request', request.clock))
-        self.data.append(self.propogate_execute(request.id,'withdraw_propogate_execute'))
-        self.balance = request.balance    
         output = service_pb2.WithdrawPropogateResponse()
-        output.result = 1
-        output.clock = self.clock
+
+        try:
+          output.id = request.id 
+
+          output.clock_events.append(self.propogate_request(request.id, request.event_id, 'withdraw_propogate_request', request.clock))
+          output.clock_events.append(self.propogate_execute(request.id, request.event_id, 'withdraw_propogate_execute'))
+       
+          self.balance = request.balance     
+          output.result = 1
+
+        except Exception as e:
+          print('Exception at WithdrawPropogate', e)  
         return output
 
     def DepositPropogate(self, request, context):
-        self.data.append(self.propogate_request(request.id, 'deposit_propogate_request', request.clock))
-        self.data.append(self.propogate_execute(request.id,'deposit_propogate_execute'))
+      output = service_pb2.DepositPropogateResponse() 
+
+      try:
+        output.id = request.id
+
+        output.clock_events.append(self.propogate_request(request.id, request.event_id, 'deposit_propogate_request', request.clock))
+        output.clock_events.append(self.propogate_execute(request.id, request.event_id, 'deposit_propogate_execute'))
+        
         self.balance = request.balance 
-        output = service_pb2.DepositPropogateResponse()
         output.result = 1
-        output.clock = self.clock
-        return output
+
+      except Exception as e:
+        print('Exception at DepositPropogate', e)  
+      return output

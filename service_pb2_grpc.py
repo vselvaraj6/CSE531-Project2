@@ -22,7 +22,7 @@ class BranchStub(object):
         self.Withdraw = channel.unary_unary(
                 '/Branch/Withdraw',
                 request_serializer=service__pb2.WithdrawRequest.SerializeToString,
-                response_deserializer=service__pb2.WithdrawRequest.FromString,
+                response_deserializer=service__pb2.WithdrawResponse.FromString,
                 )
         self.Query = channel.unary_unary(
                 '/Branch/Query',
@@ -37,7 +37,7 @@ class BranchStub(object):
         self.DepositPropogate = channel.unary_unary(
                 '/Branch/DepositPropogate',
                 request_serializer=service__pb2.DepositPropogateRequest.SerializeToString,
-                response_deserializer=service__pb2.DepositPropogateRequest.FromString,
+                response_deserializer=service__pb2.DepositPropogateResponse.FromString,
                 )
 
 
@@ -86,7 +86,7 @@ def add_BranchServicer_to_server(servicer, server):
             'Withdraw': grpc.unary_unary_rpc_method_handler(
                     servicer.Withdraw,
                     request_deserializer=service__pb2.WithdrawRequest.FromString,
-                    response_serializer=service__pb2.WithdrawRequest.SerializeToString,
+                    response_serializer=service__pb2.WithdrawResponse.SerializeToString,
             ),
             'Query': grpc.unary_unary_rpc_method_handler(
                     servicer.Query,
@@ -101,7 +101,7 @@ def add_BranchServicer_to_server(servicer, server):
             'DepositPropogate': grpc.unary_unary_rpc_method_handler(
                     servicer.DepositPropogate,
                     request_deserializer=service__pb2.DepositPropogateRequest.FromString,
-                    response_serializer=service__pb2.DepositPropogateRequest.SerializeToString,
+                    response_serializer=service__pb2.DepositPropogateResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -143,7 +143,7 @@ class Branch(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Branch/Withdraw',
             service__pb2.WithdrawRequest.SerializeToString,
-            service__pb2.WithdrawRequest.FromString,
+            service__pb2.WithdrawResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -194,6 +194,6 @@ class Branch(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Branch/DepositPropogate',
             service__pb2.DepositPropogateRequest.SerializeToString,
-            service__pb2.DepositPropogateRequest.FromString,
+            service__pb2.DepositPropogateResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

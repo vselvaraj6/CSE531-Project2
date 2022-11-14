@@ -43,6 +43,7 @@ class Customer:
                     self.stub = service_pb2_grpc.BranchStub(channel)
                     response = self.stub.Withdraw(request=request)
                     self.recvMsg.append(response)
+                    self.data.append(response.clock_events)
                 channel.close()   
 
     def executeDepositEvents(self):
@@ -52,11 +53,12 @@ class Customer:
         
         for event in self.events:
             if event.get('interface') == 'deposit':
-                request = service_pb2.DepositRequest(id=self.id, clock=self.clock, event=event)
+                request = service_pb2.DepositRequest(id=self.id, clock=self.clock+1, event=event)
                 with grpc.insecure_channel(host) as channel:
                     self.stub = service_pb2_grpc.BranchStub(channel)
                     response = self.stub.Deposit(request=request)
                     self.recvMsg.append(response)
+                    self.data.append(response.clock_events)
                 channel.close()                                
 
     def executeQueryEvents(self):
@@ -66,7 +68,7 @@ class Customer:
         
         for event in self.events:
             if event.get('interface') == 'query':
-                request = service_pb2.QueryRequest(id=self.id, clock=self.clock, event=event)
+                request = service_pb2.QueryRequest(id=self.id, clock=self.clock+1, event=event)
                 with grpc.insecure_channel(host) as channel:
                     self.stub = service_pb2_grpc.BranchStub(channel)
                     response = self.stub.Query(request=request)
