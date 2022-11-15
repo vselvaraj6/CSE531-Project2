@@ -26,11 +26,6 @@ class Customer:
     def __repr__(self):
         return str(self)     
 
-    # TODO: students are expected to create the Customer stub
-    def createStub(self):
-       pass
-
-    # TODO: students are expected to send out the events to the Bank
     def executeWithdrawEvents(self):
         port = 50050 + self.id
         host = 'localhost:'+str(port)

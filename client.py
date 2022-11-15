@@ -82,10 +82,7 @@ for customer in customers:
                     eventid_dict[clock.event_id] = [EventIdData(clock.clock, clock.name)]
 
 
-#pid_dict_str = [{'pid': key, 'data': str(pid_dict[key])} for key in pid_dict]
-#eventid_dict_str = [{'eventid': key, 'data': str(eventid_dict[key])} for key in eventid_dict]
-
-# Print Results for Process IDs
+# Print Final output for Process IDs
 for key in pid_dict:
     print("{'pid':" + str(key) + ",")
     print("'data': [")
@@ -93,7 +90,7 @@ for key in pid_dict:
         print(value)
     print("]}")    
 
-# Print Results for Event IDs
+# Print Final output for Event IDs
 for key in eventid_dict:
     print("{'eventid':" + str(key) + ",")
     print("'data': [")

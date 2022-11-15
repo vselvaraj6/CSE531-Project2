@@ -50,7 +50,7 @@ message Event {
 }
 
 
-//API Response
+//API Responses
 message WithdrawResponse {
     int32 id = 1;
     Interface interface = 2;
