@@ -67,12 +67,12 @@ for customer_process in customer_processes:
 
 # print("Final_Response")
 
-events_list = list()
+eventid_dict = dict()
 pid_dict = dict()
 
 for customer in customers:
     #print("{ 'id': ", customer.id, "'recv:'", customer.recvMsg, "}")
-    print(customer.data)
+    #print(customer.data)
     if len(customer.data):
         for data in customer.data:
             for clock in data:
@@ -82,7 +82,18 @@ for customer in customers:
                 else:
                     pid_dict[clock.id] = [PIdData(clock.event_id, clock.name, clock.clock)]
 
-#print('pid_dict', pid_dict)
+                if eventid_dict.keys().__contains__(clock.event_id):
+                    value = eventid_dict[clock.event_id]    
+                    value.extend([EventIdData(clock.clock, clock.name)])
+                else:
+                    eventid_dict[clock.event_id] = [EventIdData(clock.clock, clock.name)]
+
+
+pid_dict_str = [{'pid': key, 'data': str(pid_dict[key])} for key in pid_dict]
+eventid_dict_str = [{'eventid': key, 'data': str(eventid_dict[key])} for key in eventid_dict]
+
+print(json.dumps(pid_dict_str, indent=2), flush=True)
+print(json.dumps(eventid_dict_str, indent=2), flush=True)
 
 with open('output.txt', 'w') as f:
     for customer in customers:

@@ -76,12 +76,14 @@ message WithdrawPropogateResponse {
     int32 id = 1;
     Result result = 2;
     repeated ClockEvent clock_events = 3;
+    int32 clock = 4;
 }
 
 message DepositPropogateResponse {
     int32 id = 1;
     Result result = 2;
     repeated ClockEvent clock_events = 3;
+    int32 clock = 4;
 }
 
 message ClockEvent { 

@@ -117,12 +117,12 @@ class BranchServicer(service_pb2_grpc.BranchServicer):
                 if process != self.id: 
                   result = self.orchestrate_propogate_withdraw(process, request.event.id, self.branches.get(process), self.clock)
                   output.clock_events.extend(result.clock_events)
-                  output.clock_events.append(self.propogate_response(self.id, request.event.id, 'withdraw_propogate_response', self.clock))
+                  output.clock_events.append(self.propogate_response(self.id, request.event.id, 'withdraw_propogate_response', result.clock))
 
               output.clock_events.append(self.event_response(self.id, request.event.id, 'withdraw_response'))    
 
         except Exception as e:
-          print(e)      
+          print('Exception at Withdraw:', e)      
         return output
 
     def Deposit(self, request, context):
@@ -141,12 +141,12 @@ class BranchServicer(service_pb2_grpc.BranchServicer):
                 if process != self.id: 
                   result = self.orchestrate_propogate_deposit(process, request.event.id, self.branches.get(process), self.clock)
                   output.clock_events.extend(result.clock_events)
-                  output.clock_events.append(self.propogate_response(self.id, request.event.id, 'deposit_propogate_response', self.clock))
+                  output.clock_events.append(self.propogate_response(self.id, request.event.id, 'deposit_propogate_response', result.clock))
              
               output.clock_events.append(self.event_response(self.id, request.event.id, 'deposit_response'))
               
         except Exception as e:
-          print(e)    
+          print('Exception at Deposit', e)    
         return output    
 
     def Query(self, request, context):
@@ -168,6 +168,7 @@ class BranchServicer(service_pb2_grpc.BranchServicer):
        
           self.balance = request.balance     
           output.result = 1
+          output.clock = self.clock
 
         except Exception as e:
           print('Exception at WithdrawPropogate', e)  
@@ -184,6 +185,7 @@ class BranchServicer(service_pb2_grpc.BranchServicer):
         
         self.balance = request.balance 
         output.result = 1
+        output.clock = self.clock
 
       except Exception as e:
         print('Exception at DepositPropogate', e)  

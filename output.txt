@@ -33,31 +33,31 @@ clock_events {
   id: 2
   event_id: 2
   name: "deposit_propogate_response"
-  clock: 5
+  clock: 7
 }
 clock_events {
   id: 3
   event_id: 2
   name: "deposit_propogate_request"
-  clock: 6
+  clock: 8
 }
 clock_events {
   id: 3
   event_id: 2
   name: "deposit_propogate_execute"
-  clock: 7
+  clock: 9
 }
 clock_events {
   id: 2
   event_id: 2
   name: "deposit_propogate_response"
-  clock: 6
+  clock: 10
 }
 clock_events {
   id: 2
   event_id: 2
   name: "deposit_response"
-  clock: 7
+  clock: 11
 }
 , id: 2
 interface: query
@@ -70,55 +70,55 @@ clock_events {
   id: 3
   event_id: 4
   name: "withdraw_request"
-  clock: 8
+  clock: 10
 }
 clock_events {
   id: 3
   event_id: 4
   name: "withdraw_execute"
-  clock: 9
+  clock: 11
 }
 clock_events {
   id: 1
   event_id: 4
   name: "withdraw_propogate_request"
-  clock: 10
-}
-clock_events {
-  id: 1
-  event_id: 4
-  name: "withdraw_propogate_execute"
-  clock: 11
-}
-clock_events {
-  id: 3
-  event_id: 4
-  name: "withdraw_propogate_response"
-  clock: 10
-}
-clock_events {
-  id: 2
-  event_id: 4
-  name: "withdraw_propogate_request"
-  clock: 11
-}
-clock_events {
-  id: 2
-  event_id: 4
-  name: "withdraw_propogate_execute"
   clock: 12
 }
 clock_events {
+  id: 1
+  event_id: 4
+  name: "withdraw_propogate_execute"
+  clock: 13
+}
+clock_events {
   id: 3
   event_id: 4
   name: "withdraw_propogate_response"
-  clock: 11
+  clock: 14
+}
+clock_events {
+  id: 2
+  event_id: 4
+  name: "withdraw_propogate_request"
+  clock: 15
+}
+clock_events {
+  id: 2
+  event_id: 4
+  name: "withdraw_propogate_execute"
+  clock: 16
+}
+clock_events {
+  id: 3
+  event_id: 4
+  name: "withdraw_propogate_response"
+  clock: 17
 }
 clock_events {
   id: 3
   event_id: 4
   name: "withdraw_response"
-  clock: 12
+  clock: 18
 }
 , id: 3
 interface: query
