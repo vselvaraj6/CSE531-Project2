@@ -34,7 +34,6 @@ class Customer:
     def executeWithdrawEvents(self):
         port = 50050 + self.id
         host = 'localhost:'+str(port)
-        print('Creating customer stub to connect to branch on ', host)
         
         for event in self.events:
             if event.get('interface') == 'withdraw':
@@ -49,7 +48,6 @@ class Customer:
     def executeDepositEvents(self):
         port = 50050 + self.id
         host = 'localhost:'+str(port)
-        print('Creating customer stub to connect to branch on ', host)
         
         for event in self.events:
             if event.get('interface') == 'deposit':
@@ -64,7 +62,6 @@ class Customer:
     def executeQueryEvents(self):
         port = 50050 + self.id
         host = 'localhost:'+str(port)
-        print('Creating customer stub to connect to branch on ', host)
         
         for event in self.events:
             if event.get('interface') == 'query':

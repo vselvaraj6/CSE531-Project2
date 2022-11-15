@@ -39,13 +39,11 @@ for customer_input_item in customer_input_items:
 for customer in customers:
     for event in customer.events:
         if event.get('interface') == 'deposit':
-            # print("---customer events deposit ---", customer.events)
             customer_process = Process(target=customer.executeDepositEvents(),)
             customer_processes.append(customer_process)
             customer_process.start()
 
         elif event.get('interface') == 'withdraw':
-            # print("---customer events withdraw ---", customer.events)
             customer_process = Process(target=customer.executeWithdrawEvents(),)
             customer_processes.append(customer_process)
             customer_process.start()    
@@ -57,7 +55,6 @@ time.sleep(3)
 for customer in customers:
     for event in customer.events:
         if event.get('interface') == 'query':
-            # print("---customer events for query ---", customer.events)
             customer_process = Process(target=customer.executeQueryEvents(),)
             customer_processes.append(customer_process)
             customer_process.start()
@@ -65,14 +62,10 @@ for customer in customers:
 for customer_process in customer_processes:
     customer_process.join()    
 
-# print("Final_Response")
-
 eventid_dict = dict()
 pid_dict = dict()
 
 for customer in customers:
-    #print("{ 'id': ", customer.id, "'recv:'", customer.recvMsg, "}")
-    #print(customer.data)
     if len(customer.data):
         for data in customer.data:
             for clock in data:

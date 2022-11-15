@@ -1,6 +1,6 @@
 id: 1, recv:[id: 1
 interface: query
-money: 500
+money: 700
 result: success
 ]id: 2, recv:[id: 2
 interface: deposit
@@ -9,59 +9,59 @@ clock_events {
   id: 2
   event_id: 2
   name: "deposit_request"
-  clock: 3
+  clock: 31
 }
 clock_events {
   id: 2
   event_id: 2
   name: "deposit_execute"
-  clock: 4
+  clock: 32
 }
 clock_events {
   id: 1
   event_id: 2
   name: "deposit_propogate_request"
-  clock: 5
+  clock: 33
 }
 clock_events {
   id: 1
   event_id: 2
   name: "deposit_propogate_execute"
-  clock: 6
+  clock: 34
 }
 clock_events {
   id: 2
   event_id: 2
   name: "deposit_propogate_response"
-  clock: 7
+  clock: 35
 }
 clock_events {
   id: 3
   event_id: 2
   name: "deposit_propogate_request"
-  clock: 8
+  clock: 36
 }
 clock_events {
   id: 3
   event_id: 2
   name: "deposit_propogate_execute"
-  clock: 9
+  clock: 37
 }
 clock_events {
   id: 2
   event_id: 2
   name: "deposit_propogate_response"
-  clock: 10
+  clock: 38
 }
 clock_events {
   id: 2
   event_id: 2
   name: "deposit_response"
-  clock: 11
+  clock: 39
 }
 , id: 2
 interface: query
-money: 500
+money: 700
 result: success
 ]id: 3, recv:[id: 3
 interface: withdraw
@@ -70,58 +70,58 @@ clock_events {
   id: 3
   event_id: 4
   name: "withdraw_request"
-  clock: 10
+  clock: 38
 }
 clock_events {
   id: 3
   event_id: 4
   name: "withdraw_execute"
-  clock: 11
+  clock: 39
 }
 clock_events {
   id: 1
   event_id: 4
   name: "withdraw_propogate_request"
-  clock: 12
+  clock: 40
 }
 clock_events {
   id: 1
   event_id: 4
   name: "withdraw_propogate_execute"
-  clock: 13
+  clock: 41
 }
 clock_events {
   id: 3
   event_id: 4
   name: "withdraw_propogate_response"
-  clock: 14
+  clock: 42
 }
 clock_events {
   id: 2
   event_id: 4
   name: "withdraw_propogate_request"
-  clock: 15
+  clock: 43
 }
 clock_events {
   id: 2
   event_id: 4
   name: "withdraw_propogate_execute"
-  clock: 16
+  clock: 44
 }
 clock_events {
   id: 3
   event_id: 4
   name: "withdraw_propogate_response"
-  clock: 17
+  clock: 45
 }
 clock_events {
   id: 3
   event_id: 4
   name: "withdraw_response"
-  clock: 18
+  clock: 46
 }
 , id: 3
 interface: query
-money: 500
+money: 700
 result: success
 ]
