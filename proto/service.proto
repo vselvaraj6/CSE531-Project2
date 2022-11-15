@@ -53,16 +53,18 @@ message Event {
 //API Response
 message WithdrawResponse {
     int32 id = 1;
-    Interface interface = 2;
-    Result result = 3;
-    repeated ClockEvent clock_events = 4;
+    int32 clock = 2;
+    Interface interface = 3;
+    Result result = 4;
+    repeated ClockEvent clock_events = 5;
 }
 
 message DepositResponse {
     int32 id = 1;
-    Interface interface = 2;
-    Result result = 3;
-    repeated ClockEvent clock_events = 4;
+    int32 clock = 2;
+    Interface interface = 3;
+    Result result = 4;
+    repeated ClockEvent clock_events = 5;
 }
 
 message QueryResponse {

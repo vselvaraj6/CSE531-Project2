@@ -90,16 +90,6 @@ class BranchServicer(service_pb2_grpc.BranchServicer):
       clock_event.clock = self.clock
       return clock_event
 
-    def event_response(self, id, event_id, event_name):
-      self.clock = self.clock + 1  
-      clock_event = service_pb2.ClockEvent()
-      clock_event.id = id
-      clock_event.event_id = event_id
-      clock_event.name = event_name
-      clock_event.clock = self.clock
-      return clock_event
-
-
     # TODO: students are expected to process requests from both Client and Branch
     def Withdraw(self, request, context):
         output = service_pb2.WithdrawResponse()
@@ -119,8 +109,9 @@ class BranchServicer(service_pb2_grpc.BranchServicer):
                   output.clock_events.extend(result.clock_events)
                   output.clock_events.append(self.propogate_response(self.id, request.event.id, 'withdraw_propogate_response', self.clock))
 
-              output.clock_events.append(self.event_response(self.id, request.event.id, 'withdraw_response'))    
-
+         #     output.clock_events.append(self.event_response(self.id, request.event.id, 'withdraw_response'))    
+              output.clock = self.clock
+              
         except Exception as e:
           print(e)      
         return output
@@ -143,7 +134,8 @@ class BranchServicer(service_pb2_grpc.BranchServicer):
                   output.clock_events.extend(result.clock_events)
                   output.clock_events.append(self.propogate_response(self.id, request.event.id, 'deposit_propogate_response', self.clock))
              
-              output.clock_events.append(self.event_response(self.id, request.event.id, 'deposit_response'))
+              output.clock = self.clock 
+       #       output.clock_events.append(self.event_response(self.id, request.event.id, 'deposit_response'))
               
         except Exception as e:
           print(e)    

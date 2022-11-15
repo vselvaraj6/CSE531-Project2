@@ -30,8 +30,19 @@ class Customer:
     def createStub(self):
        pass
 
+    
+    def event_response(self, id, event_id, event_name, clock):
+      self.clock = max(self.clock, clock) + 1  
+      clock_event = service_pb2.ClockEvent()
+      clock_event.id = id
+      clock_event.event_id = event_id
+      clock_event.name = event_name
+      clock_event.clock = clock
+      return clock_event
+   
+
     # TODO: students are expected to send out the events to the Bank
-    def executeWithdrawEvents(self):
+    def executeUpdateEvents(self):
         port = 50050 + self.id
         host = 'localhost:'+str(port)
         print('Creating customer stub to connect to branch on ', host)
@@ -44,22 +55,17 @@ class Customer:
                     response = self.stub.Withdraw(request=request)
                     self.recvMsg.append(response)
                     self.data.append(response.clock_events)
-                channel.close()   
-
-    def executeDepositEvents(self):
-        port = 50050 + self.id
-        host = 'localhost:'+str(port)
-        print('Creating customer stub to connect to branch on ', host)
-        
-        for event in self.events:
-            if event.get('interface') == 'deposit':
+              #      self.clock = response.clock
+                channel.close()
+            elif event.get('interface') == 'deposit':
                 request = service_pb2.DepositRequest(id=self.id, clock=self.clock+1, event=event)
                 with grpc.insecure_channel(host) as channel:
                     self.stub = service_pb2_grpc.BranchStub(channel)
                     response = self.stub.Deposit(request=request)
                     self.recvMsg.append(response)
                     self.data.append(response.clock_events)
-                channel.close()                                
+               #     self.clock = response.clock
+                channel.close()                                 
 
     def executeQueryEvents(self):
         port = 50050 + self.id

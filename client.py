@@ -6,7 +6,6 @@ from pid_data import PIdData
 from eventid_data import EventIdData
 from multiprocessing import Process
 
-
 def parse_input_file():
     customer_input_items = list()
     try:
@@ -38,15 +37,8 @@ for customer_input_item in customer_input_items:
 #Invoke withdraw and deposit interface
 for customer in customers:
     for event in customer.events:
-        if event.get('interface') == 'deposit':
-            # print("---customer events deposit ---", customer.events)
-            customer_process = Process(target=customer.executeDepositEvents(),)
-            customer_processes.append(customer_process)
-            customer_process.start()
-
-        elif event.get('interface') == 'withdraw':
-            # print("---customer events withdraw ---", customer.events)
-            customer_process = Process(target=customer.executeWithdrawEvents(),)
+        if event.get('interface') == 'deposit' or event.get('interface') == 'withdraw':
+            customer_process = Process(target=customer.executeUpdateEvents(),)        
             customer_processes.append(customer_process)
             customer_process.start()    
 
@@ -57,7 +49,6 @@ time.sleep(3)
 for customer in customers:
     for event in customer.events:
         if event.get('interface') == 'query':
-            # print("---customer events for query ---", customer.events)
             customer_process = Process(target=customer.executeQueryEvents(),)
             customer_processes.append(customer_process)
             customer_process.start()
@@ -65,22 +56,20 @@ for customer in customers:
 for customer_process in customer_processes:
     customer_process.join()    
 
-# print("Final_Response")
-
 events_list = list()
 pid_dict = dict()
 
 for customer in customers:
     #print("{ 'id': ", customer.id, "'recv:'", customer.recvMsg, "}")
     print(customer.data)
-    if len(customer.data):
-        for data in customer.data:
-            for clock in data:
-                if pid_dict.keys().__contains__(clock.id):
-                    value = pid_dict[clock.id]
-                    value.extend([PIdData(clock.event_id, clock.name, clock.clock)])
-                else:
-                    pid_dict[clock.id] = [PIdData(clock.event_id, clock.name, clock.clock)]
+    # if len(customer.data):
+    #     for data in customer.data:
+    #         for clock in data:
+    #             if pid_dict.keys().__contains__(clock.id):
+    #                 value = pid_dict[clock.id]
+    #                 value.extend([PIdData(clock.event_id, clock.name, clock.clock)])
+    #             else:
+    #                 pid_dict[clock.id] = [PIdData(clock.event_id, clock.name, clock.clock)]
 
 #print('pid_dict', pid_dict)
 
