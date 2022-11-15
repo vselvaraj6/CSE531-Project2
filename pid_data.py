@@ -1,6 +1,3 @@
-import json
-import dataclasses
-from json import JSONEncoder
 from dataclasses import dataclass
 
 @dataclass(repr=True, order=True)
@@ -11,4 +8,4 @@ class PIdData:
     
 
     def __repr__(self):
-        return '{id: ' + str(self.id) + ', name: '+ self.name + ', clock: ' + str(self.clock) + '}'
+        return "{'id': " + str(self.id) + ", 'name': "+ self.name + ", 'clock': " + str(self.clock) + '}'

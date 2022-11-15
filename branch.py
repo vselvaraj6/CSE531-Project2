@@ -1,5 +1,4 @@
 import grpc
-from concurrent import futures
 import service_pb2_grpc
 import service_pb2
 import time

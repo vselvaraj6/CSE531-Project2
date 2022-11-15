@@ -82,11 +82,25 @@ for customer in customers:
                     eventid_dict[clock.event_id] = [EventIdData(clock.clock, clock.name)]
 
 
-pid_dict_str = [{'pid': key, 'data': str(pid_dict[key])} for key in pid_dict]
-eventid_dict_str = [{'eventid': key, 'data': str(eventid_dict[key])} for key in eventid_dict]
+#pid_dict_str = [{'pid': key, 'data': str(pid_dict[key])} for key in pid_dict]
+#eventid_dict_str = [{'eventid': key, 'data': str(eventid_dict[key])} for key in eventid_dict]
 
-print(json.dumps(pid_dict_str, indent=2), flush=True)
-print(json.dumps(eventid_dict_str, indent=2), flush=True)
+# Print Results for Process IDs
+for key in pid_dict:
+    print("{'pid':" + str(key) + ",")
+    print("'data': [")
+    for value in pid_dict[key]:
+        print(value)
+    print("]}")    
+
+# Print Results for Event IDs
+for key in eventid_dict:
+    print("{'eventid':" + str(key) + ",")
+    print("'data': [")
+    for value in eventid_dict[key]:
+        print(value)
+    print("]}")    
+
 
 with open('output.txt', 'w') as f:
     for customer in customers:
